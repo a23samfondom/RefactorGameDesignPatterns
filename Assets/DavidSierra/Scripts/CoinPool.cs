@@ -27,10 +27,28 @@ public class CoinPool : MonoBehaviour
     {
         
     }
+	// este metodo lo que hace es coger la moneda del array para poder utilizarla.
+	public GameObject ObtenerMoneda(Vector3 posicion)
+	{
+		if (monedasGuardadas.Count == 0) // un if que si detecta que no hay monedas, pues simplemente devuelve null
+		{
+			return null;
+		}
 
+		GameObject moneda = monedasGuardadas[0]; // crea la variable moneda, que es la moneda que se va a devolver, esta es la primero moneda de la array
+		monedasGuardadas.RemoveAt(0); // ahora como hemos cogido una moneda, lo que ahcemos es retirarla del array, porque ya no esta
 
-    public void DevolverMoneda(){
-        
+		moneda.transform.position = posicion; // como en el input se nos da una posicion, pues indicamos que la moneda va a estar en la ubicación que se le asigna
+		moneda.SetActive(true); // activamos la moneda, porque en el array viene descativada
 
-    }
+		return moneda; // devolvemos la moneda
+	}
+
+	// este metodo como dice su nombre es devolver la moneda a la array para que este guardada
+	public void DevolverMoneda(GameObject moneda) 
+	{
+
+		moneda.SetActive(false); // setea la moneda a false para que no se pueda ver ni ahcer nada
+		monedasGuardadas.Add(moneda); // alñade a la moneda a la array.
+	}
 }
