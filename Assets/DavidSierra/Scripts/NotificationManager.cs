@@ -71,7 +71,8 @@ public class NotificationManager : MonoBehaviour {
             yield return null;
             timer += Time.deltaTime;
         }
-        timeRemainingForNextNotification = timeBetweenNotifications;
+		canvasGroup.alpha = 0;
+		timeRemainingForNextNotification = timeBetweenNotifications;
         currentNotification = null;
     }
 
