@@ -63,4 +63,11 @@ public class AchievementManager : MonoBehaviour
             notificationManager.AddNotification("Logro desbloqueado: Saltador!", 3f);//mensaje que muestra por pantalla
         }
     }
+
+    // un metodo get, este devuelve la cantidad de monedas que tiene el player
+    public int GetCoinsCollected(){
+
+        return coinsCollected; // devuelve la cantidad de monedas que tiene el player
+
+	}
 }

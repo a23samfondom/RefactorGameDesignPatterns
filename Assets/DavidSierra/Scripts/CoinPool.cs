@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+// HAY QUE MIRAR QUE SI SE QUEDA SIN MONEDAS, QUE PUEDA IR GENERANDO MAS 
+
 public class CoinPool : MonoBehaviour
 {
 	[SerializeField] private GameObject coinPrefab; // el prefab de las coins
