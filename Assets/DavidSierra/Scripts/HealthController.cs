@@ -16,6 +16,8 @@ public class HealthController : MonoBehaviour {
 
             CoinPool.Instance.ObtenerMoneda(posicionMuerte); // Pedimos una moneda al pool.
 
+            FindFirstObjectByType<EnemySpawner>().CrearEnemigo(); //Avisar al spawner para que cree otro enemigo.
+
             Destroy(gameObject); //Enemigo se destruye
         }
     }
