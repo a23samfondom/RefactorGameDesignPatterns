@@ -2,155 +2,95 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
+	[Header("References")]
+	[SerializeField] private GameObject projectilePrefab;
 
-    [Header("References")]
-    [SerializeField] GameObject projectilePrefab;
-    [SerializeField] NotificationManager notificationManager;
-    private Rigidbody2D rb;
-    int coins = 0;
+	private Rigidbody2D rb;
+	private int coins = 0;
 
-    [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayer;
+	[Header("Input")]
+	[SerializeField] private InputAction movementAction;
+	[SerializeField] private InputAction shootAction;
 
+	[Header("Movement")]
+	[SerializeField] private float horizontalMovementSpeed = 5.0f;
 
-    private bool isGrounded;
+	private float horizontalVelocity;
+	private float lastHorizontal = 1.0f;
 
-    [Header("Input")]
-    [SerializeField] InputAction jumpAction;
-    [SerializeField] InputAction movementAction;
-    [SerializeField] InputAction shootAction;
+	public static event Action CoinCollected; //AGREGO este evento para utilizarlo en PickUpCoin()
 
-    [SerializeField] CoyoteJump coyoteJump;
-    bool jumpInput = false;
+	private void Awake()
+	{
+		rb = GetComponent<Rigidbody2D>();
 
-    [Header("Movement")]
-    [SerializeField] float horizontalMovementSpeed = 5.0f;
-    float horizontalVelocity;
-    float lastHorizontal = 1.0f;
+		movementAction.performed += OnMovement;
+		shootAction.performed += OnShoot;
+		movementAction.canceled += OnMovement;
+	}
 
-    public static event Action CoinCollected; //AGREGO este evento para utilizarlo en PickUpCoin()
-    public static event Action PlayerJumped; //AGRERGO este evento para logro de saltos utilizado en OnJump()
+	private void OnEnable()
+	{
+		movementAction.Enable();
+		shootAction.Enable();
+	}
 
+	private void OnDisable()
+	{
+		movementAction.Disable();
+		shootAction.Disable();
+	}
 
+	private void OnMovement(InputAction.CallbackContext ctx)
+	{
+		float input = ctx.ReadValue<float>();
 
-    void Awake() {
-        rb = GetComponent<Rigidbody2D>();
-        jumpAction.performed += OnJump;
-        movementAction.performed += OnMovement;
-        shootAction.performed += OnShoot;
-        lastHorizontal = 1.0f;
-    }
+		horizontalVelocity = input * horizontalMovementSpeed;
 
-    private void OnEnable() {
-        jumpAction.Enable();
-        movementAction.Enable();
-        shootAction.Enable();
-    }
-    private void OnDisable() {
-        jumpAction.Disable();
-        movementAction.Disable();
-        shootAction.Disable();
-    }
-    
-    void Update() {
-        // Ground check
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        coyoteJump.UpdateJump(rb, isGrounded, jumpInput);
-        rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
-    }
+		if (Mathf.Abs(input) > 0)
+			lastHorizontal = input;
+	}
 
-    void FixedUpdate() {
-        coyoteJump.FixedUpdateJump(rb, isGrounded, jumpInput);
-    }
-    void OnJump(InputAction.CallbackContext ctx) {
+	private void Update()
+	{
+		rb.linearVelocity = new Vector2(
+			horizontalVelocity,
+			rb.linearVelocity.y
+		);
+	}
 
-        if (ctx.ReadValue<float>() == 1) {
+	private void OnShoot(InputAction.CallbackContext ctx)
+	{
+		if (ctx.ReadValue<float>() == 1.0f)
+		{
+			Shoot();
+		}
+	}
 
-            jumpInput = true;
-            PlayerJumped?.Invoke(); //AVISA a AchievementManager de que el jugador ha saltado
+	private void Shoot()
+	{
+		GameObject projectileInstance = Instantiate(projectilePrefab);
 
-        } else {
-            jumpInput = false;
-        }
-    }
+		Projectile projectile =
+			projectileInstance.GetComponent<Projectile>();
 
-    void OnMovement(InputAction.CallbackContext ctx) {
-        horizontalVelocity = ctx.ReadValue<float>() * horizontalMovementSpeed;
-        if (Mathf.Abs(ctx.ReadValue<float>()) > 0) lastHorizontal = horizontalVelocity;
-    }
-    void OnShoot(InputAction.CallbackContext ctx) {
-        if (ctx.ReadValue<float>() == 1.0f) {
-            Shoot();
-        }
-    }
+		projectile.transform.position =
+			transform.position + Vector3.right * lastHorizontal;
 
-    void Shoot() {
-        GameObject projectileInstance = Instantiate(projectilePrefab);
-        Projectile projectile = projectileInstance.GetComponent<Projectile>();
-        projectile.transform.position = transform.position + (Vector3.right * Mathf.Clamp(lastHorizontal, -1, 1));
-        projectile.Init(new Vector2(lastHorizontal, 0));
+		projectile.Init(new Vector2(lastHorizontal, 0));
+	}
 
-    }
+	public void PickUpCoin()
+	{
+		coins++;
 
-    public void PickUpCoin() {
-        coins++;
+		CoinCollected?.Invoke();
+		
+	}
+	
 
-        CoinCollected?.Invoke();
-
-        //notificationManager.AddNotification("Player now has " + coins + " coin" + (coins > 1 ? "s" : ""), 1.5f);
-        //Comento el mensaje para verificar que se muestra el logro de las 5 monedas
-    }
-
-
-}
-
-[System.Serializable]
-public class CoyoteJump {
-    public float jumpForce = 14f;
-    public float fallMultiplier = 2.5f;
-    public float lowJumpMultiplier = 2f;
-    public float coyoteTime = 0.1f; // Time after leaving ground where jump is still allowed
-    public float jumpBufferTime = 0.1f; // Buffer time for jump input
-    private float coyoteTimeCounter;
-    private float jumpBufferCounter;
-
-    public void FixedUpdateJump(Rigidbody2D rigidbody2D, bool isGrounded, bool jumpInput) {
-        // Better gravity
-        if (rigidbody2D.linearVelocity.y < 0) {
-            rigidbody2D.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-        } else if (rigidbody2D.linearVelocity.y > 0 && !jumpInput) {
-            rigidbody2D.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
-        }
-    }
-
-    public void UpdateJump(Rigidbody2D rigidbody2D, bool isGrounded, bool jumpInputPressed) {
-
-        // Update coyote timer
-        if (isGrounded)
-            coyoteTimeCounter = coyoteTime;
-        else
-            coyoteTimeCounter -= Time.deltaTime;
-
-        // Jump buffer
-        if (jumpInputPressed)
-            jumpBufferCounter = jumpBufferTime;
-        else
-            jumpBufferCounter -= Time.deltaTime;
-
-        // Jump
-        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f) {
-            rigidbody2D.linearVelocity = new Vector2(rigidbody2D.linearVelocity.x, jumpForce);
-            jumpBufferCounter = 0f; // consume buffer
-        }
-
-        // Variable jump height
-        if (!jumpInputPressed && rigidbody2D.linearVelocity.y > 0f) {
-            rigidbody2D.linearVelocity = new Vector2(rigidbody2D.linearVelocity.x, rigidbody2D.linearVelocity.y * 0.5f);
-            coyoteTimeCounter = 0f; // prevent double use
-        }
-    }
+   
 
 }

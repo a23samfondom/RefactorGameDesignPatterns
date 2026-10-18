@@ -21,14 +21,14 @@ public class AchievementManager : MonoBehaviour
     {
         HealthController.EnemyDied += RegisterEnemyKill; //se suscribe al aviso de muerte de los enemigos.
         PlayerController.CoinCollected += RegisterCoinCollected; //Se suscribe al aviso de recogida de monedas
-        PlayerController.PlayerJumped += RegisterJump; //Se suscribe al evento para saber cuando salta
+        PlayerJump.PlayerJumped += RegisterJump; //Se suscribe al evento para saber cuando salta
     }
 
     private void OnDisable() 
     {
         HealthController.EnemyDied -= RegisterEnemyKill; //cancela la suscripción para evitar mantener conexiones cuando el objeto se desactiva.
         PlayerController.CoinCollected -= RegisterCoinCollected; //cancela suscripción cuando ya las ha recogido
-        PlayerController.PlayerJumped -= RegisterJump; //cancela suscripción cuando ya ha completado los saltos
+        PlayerJump.PlayerJumped -= RegisterJump; //cancela suscripción cuando ya ha completado los saltos
     }
 
     private void RegisterEnemyKill() //REGISTRO DE ENEMIGOS MUERTOS

@@ -902,6 +902,75 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &740930428 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1750178759918722708, guid: 2c82067e717999545809d5fb71988116, type: 3}
+  m_PrefabInstance: {fileID: 4365487281684292875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &740930434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740930428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b75af7dc6ff654ba62410524f3b5f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  projectilePrefab: {fileID: 6351356859674513716, guid: facbea64110e8fe4c87740bb796b0853, type: 3}
+  movementAction:
+    m_Name: Movement
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3be010a9-5e64-4c16-a405-87814e149f2a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 1D Axis
+      m_Id: 102d1a4d-740c-4fc3-bdd2-6a06e2cde7b6
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Movement
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 0f0c9d76-3db1-4927-af83-03f56a9ba518
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Movement
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: f46f225a-ab5c-4608-9c95-1f5c23d9bfe0
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Movement
+      m_Flags: 8
+    m_Flags: 0
+  shootAction:
+    m_Name: Shoot
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8358f8a2-40fe-4a93-9603-ad533821e85a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 292d1ef3-9503-4294-a025-8635704f7008
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Shoot
+      m_Flags: 0
+    m_Flags: 0
+  horizontalMovementSpeed: 5
 --- !u!1 &805877355
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,9 +2241,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 758556582553769020, guid: 2c82067e717999545809d5fb71988116, type: 3}
+      propertyPath: jumpAction.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 758556582553769020, guid: 2c82067e717999545809d5fb71988116, type: 3}
       propertyPath: notificationManager
       value: 
       objectReference: {fileID: 1600600530}
+    - target: {fileID: 758556582553769020, guid: 2c82067e717999545809d5fb71988116, type: 3}
+      propertyPath: jumpAction.m_ExpectedControlType
+      value: Button
+      objectReference: {fileID: 0}
     - target: {fileID: 1750178759918722708, guid: 2c82067e717999545809d5fb71988116, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2222,7 +2299,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1750178759918722708, guid: 2c82067e717999545809d5fb71988116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 740930434}
   m_SourcePrefab: {fileID: 100100000, guid: 2c82067e717999545809d5fb71988116, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
