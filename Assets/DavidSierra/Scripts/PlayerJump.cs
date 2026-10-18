@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -30,6 +31,11 @@ public class PlayerController : MonoBehaviour {
     float horizontalVelocity;
     float lastHorizontal = 1.0f;
 
+    public static event Action CoinCollected; //AGREGO este evento para utilizarlo en PickUpCoin()
+    public static event Action PlayerJumped; //AGRERGO este evento para logro de saltos utilizado en OnJump()
+
+
+
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         jumpAction.performed += OnJump;
@@ -59,8 +65,12 @@ public class PlayerController : MonoBehaviour {
         coyoteJump.FixedUpdateJump(rb, isGrounded, jumpInput);
     }
     void OnJump(InputAction.CallbackContext ctx) {
+
         if (ctx.ReadValue<float>() == 1) {
+
             jumpInput = true;
+            PlayerJumped?.Invoke(); //AVISA a AchievementManager de que el jugador ha saltado
+
         } else {
             jumpInput = false;
         }
@@ -86,7 +96,11 @@ public class PlayerController : MonoBehaviour {
 
     public void PickUpCoin() {
         coins++;
-        notificationManager.AddNotification("Player now has " + coins + " coin" + (coins > 1 ? "s" : ""), 1.5f);
+
+        CoinCollected?.Invoke();
+
+        //notificationManager.AddNotification("Player now has " + coins + " coin" + (coins > 1 ? "s" : ""), 1.5f);
+        //Comento el mensaje para verificar que se muestra el logro de las 5 monedas
     }
 
 
