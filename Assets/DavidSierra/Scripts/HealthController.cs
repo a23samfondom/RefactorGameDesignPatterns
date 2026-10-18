@@ -8,7 +8,31 @@ public class HealthController : MonoBehaviour {
     public void GetHit() {
         lives--;
         if (lives <= 0) {
+
+            /*La idea es sencilla: cuando el enemigo pierda su última vida,
+            pedimos una moneda al CoinPool y la colocamos donde ha muerto el enemigo.*/
+
+            Vector3 posicionMuerte = transform.position; // Guardamos la posición donde ha muerto el enemigo.
+
+            CoinPool.Instance.ObtenerMoneda(posicionMuerte); // Pedimos una moneda al pool.
+
+            Destroy(gameObject); //Enemigo se destruye
+        }
+    }
+
+
+
+
+
+
+    //CODIGO ORIGINAL
+    /*
+    public void GetHit() {
+        lives--;
+        if (lives <= 0) {
             Destroy(gameObject);
         }
     }
+
+     */
 }

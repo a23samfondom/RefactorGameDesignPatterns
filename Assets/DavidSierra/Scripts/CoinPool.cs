@@ -5,12 +5,23 @@ public class CoinPool : MonoBehaviour
 {
 	[SerializeField] private GameObject coinPrefab; // el prefab de las coins
 	[SerializeField] private int cantidadInicial = 10; // cantidad inicial que hay de monedas, serialize para poder modificar la cantidad desde el editor directamente
-
 	private List<GameObject> monedasGuardadas = new List<GameObject>(); // vale esto es importante, esta es la array de las monedas que guarda el Pool, aqui estan
-                                                                        //las monedas guardadas que se van creando.
-	
+																		//las monedas guardadas que se van creando.
 
-	void Start()
+	
+	// VARIABLE Y AWAKE AÑADIDO Para que el enemigo pueda acceder al pool sin tener que asignárselo manualmente
+	// a cada enemigo, añadimos una referencia compartida.
+
+	public static CoinPool Instance;
+
+    private void Awake()
+    {
+		Instance = this;
+    }
+	//-----------------------------------------//
+
+
+    void Start()
     {
 		// lo que hacemos en este for es hacer instantiate de las monedas que hemos indicado en la variable de cantidadInicial, despues las descativamos y las guardamos
 		// el la array de monedasGuardadas.
