@@ -4,6 +4,9 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+
+	[SerializeField] private ProjectileFactoryPool projectileFactoryPool; // referencia del pool y factory de los proyectiles
+
 	[Header("References")]
 	[SerializeField] private GameObject projectilePrefab;
 
@@ -16,6 +19,9 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Movement")]
 	[SerializeField] private float horizontalMovementSpeed = 5.0f;
+
+
+
 
 	private float horizontalVelocity;
 	private float lastHorizontal = 1.0f;
@@ -53,12 +59,9 @@ public class PlayerController : MonoBehaviour
 			lastHorizontal = input;
 	}
 
-	private void Update()
+	private void FixedUpdate() // es mejor tener la velocidad en fixedUpdate, 
 	{
-		rb.linearVelocity = new Vector2(
-			horizontalVelocity,
-			rb.linearVelocity.y
-		);
+		rb.linearVelocity = new Vector2( horizontalVelocity, rb.linearVelocity.y);
 	}
 
 	private void OnShoot(InputAction.CallbackContext ctx)
@@ -69,24 +72,17 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void Shoot()
+	private void Shoot() // esta bien, pero los isntancia directamente, podria utilizar un factory o algo :)
 	{
-		GameObject projectileInstance = Instantiate(projectilePrefab);
-
-		Projectile projectile =
-			projectileInstance.GetComponent<Projectile>();
-
-		projectile.transform.position =
-			transform.position + Vector3.right * lastHorizontal;
-
-		projectile.Init(new Vector2(lastHorizontal, 0));
+		// llamamos al metodo createProjectile que crea el proyectil del script projectileFactoryPool
+		projectileFactoryPool.CreateProjectile(transform.position + Vector3.right * lastHorizontal, new Vector2(lastHorizontal, 0)); 
 	}
 
 	public void PickUpCoin()
 	{
 		coins++;
 
-		CoinCollected?.Invoke();
+		CoinCollected?.Invoke(); //observer
 		
 	}
 	

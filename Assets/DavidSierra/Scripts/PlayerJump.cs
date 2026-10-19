@@ -21,11 +21,7 @@ public class PlayerJump : MonoBehaviour {
     bool jumpInput = false;
 	private bool jumpRequested = false; //añadimos esta variable para saber cuando se ha pulsado la tecla 
 	
-
-
-
 	public static event Action PlayerJumped; //AGRERGO este evento para logro de saltos utilizado en OnJump()
-
 
 
     void Awake() {

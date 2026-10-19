@@ -5,7 +5,14 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     [SerializeField] Rigidbody2D rb2D;
     [SerializeField] float projectileSpeed;
-    public void Init(Vector2 direction) {
+
+	private ProjectileFactoryPool projectilePool; // creamos la referencia a ProjectileFactoryPool
+	public void SetPool(ProjectileFactoryPool pool) // este setter lo que hacemos es que el la variable projectilePool se guarde la referencia del pool
+	{
+		projectilePool = pool;
+	}
+
+	public void Init(Vector2 direction) {
         rb2D.linearVelocity = direction * projectileSpeed;
     }
 
@@ -14,7 +21,7 @@ public class Projectile : MonoBehaviour {
         if (collision.gameObject.CompareTag("Enemy")) {
             collision.gameObject.GetComponent<HealthController>().GetHit();
         }
-        Destroy(gameObject);
-    }
+		projectilePool.ReturnProjectile(gameObject); // ahora en vez de eliminar el proyectil, lo que hacemos es devolverlo a la pool
+	}
 
 }
