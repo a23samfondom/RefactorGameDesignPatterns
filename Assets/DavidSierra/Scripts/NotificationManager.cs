@@ -29,16 +29,26 @@ public class NotificationManager : MonoBehaviour {
     }
 
     public void Update() {
-        if (currentNotification == null) {
-            timeRemainingForNextNotification = Mathf.Clamp(timeRemainingForNextNotification - Time.deltaTime, 0, timeBetweenNotifications);
-        }
-        if (notificationQueue.Count == 0) return;
 
-        if (currentNotification == null) {
-            currentNotification = notificationQueue.Dequeue();
-            StartCoroutine(_InitializeNewNotification(currentNotification));
-        }
+        if (currentNotification != null) //EXPLICAR CAMBIO
+            return;
 
+        ControlarTiempoDeEspera();
+        MostrarSiguienteNotificacion();
+    }
+
+    private void ControlarTiempoDeEspera()
+    {
+        if (timeRemainingForNextNotification > 0) { timeRemainingForNextNotification -= Time.deltaTime; }
+    }
+
+    private void MostrarSiguienteNotificacion()
+    {
+        if(timeRemainingForNextNotification > 0) { return; }
+        if(notificationQueue.Count == 0) { return; }
+
+        currentNotification = notificationQueue.Dequeue();
+        StartCoroutine(_InitializeNewNotification(currentNotification));
     }
 
     IEnumerator _InitializeNewNotification(Notification n) {
@@ -66,7 +76,7 @@ public class NotificationManager : MonoBehaviour {
         //TODO HIDE 
         while (timer < defaultNotificationFadeOutDuration) {
 
-            canvasGroup.alpha = Mathf.Lerp(1, 0, timer / defaultNotificationFadeInDuration);
+            canvasGroup.alpha = Mathf.Lerp(1, 0, timer / defaultNotificationFadeOutDuration);
 
             yield return null;
             timer += Time.deltaTime;

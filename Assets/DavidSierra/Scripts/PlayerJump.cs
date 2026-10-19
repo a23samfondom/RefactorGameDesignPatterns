@@ -6,7 +6,7 @@ public class PlayerJump : MonoBehaviour {
 
     [Header("References")] 
     private Rigidbody2D rb;
- 
+    
 
     [Header("Ground Check")]
     public Transform groundCheck;

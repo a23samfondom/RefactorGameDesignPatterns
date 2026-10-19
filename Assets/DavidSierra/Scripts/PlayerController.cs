@@ -20,9 +20,6 @@ public class PlayerController : MonoBehaviour
 	[Header("Movement")]
 	[SerializeField] private float horizontalMovementSpeed = 5.0f;
 
-
-
-
 	private float horizontalVelocity;
 	private float lastHorizontal = 1.0f;
 
@@ -85,8 +82,5 @@ public class PlayerController : MonoBehaviour
 		CoinCollected?.Invoke(); //observer
 		
 	}
-	
-
-   
 
 }

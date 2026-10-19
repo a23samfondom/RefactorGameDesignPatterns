@@ -7,11 +7,16 @@ public class ProjectileFactoryPool : MonoBehaviour
 	[SerializeField] private int initialAmount = 10;// la cantidad inicial de proyectles que vamos a crear para la pool
 
 	private List<GameObject> pool = new List<GameObject>(); // creamos la pool, es una lista que guarda los proyectiles
+    public static ProjectileFactoryPool Instance { get; private set; }
 
-	private void Awake() // al empezar, crea los proyectiles que hemos indicado en la variable initialAmount, 
+    private void Awake() 
 	{
-		for (int i = 0; i < initialAmount; i++)
-		{
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+
+        Instance = this;
+
+        for (int i = 0; i < initialAmount; i++) // al empezar, crea los proyectiles que hemos indicado en la variable initialAmount, 
+        {
 			GameObject projectile = Instantiate(projectilePrefab); // instancia el proyectil
 			projectile.SetActive(false); // lo desactiva
 			pool.Add(projectile); // lo añade al pool

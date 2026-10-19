@@ -8,11 +8,16 @@ public class EnemyFactoryPool : MonoBehaviour
 	[SerializeField] private int initialAmount = 3; // cantidad inicial de enemigos en la pool
 
 	private List<GameObject> pool = new List<GameObject>(); // creamos el pool de los enemigos, este es una lista que guarda a los enemigos
+    public static EnemyFactoryPool Instance { get; private set; }
 
-	private void Awake() // al empezar, simplemente creamos los enemigos que hemos indicado en la variable initialAmount
+    private void Awake() 
 	{
-		for (int i = 0; i < initialAmount; i++)
-		{
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+
+        Instance = this;
+
+        for (int i = 0; i < initialAmount; i++) // al empezar, creamos los enemigos que hemos indicado en la variable initialAmount
+        {
 			GameObject enemy = Instantiate(enemyPrefab);
 			enemy.SetActive(false);
 			pool.Add(enemy); // añade al pool

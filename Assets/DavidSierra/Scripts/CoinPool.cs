@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-// HAY QUE MIRAR QUE SI SE QUEDA SIN MONEDAS, QUE PUEDA IR GENERANDO MAS 
-
 public class CoinPool : MonoBehaviour
 {
 	[SerializeField] private GameObject coinPrefab; // el prefab de las coins
@@ -19,14 +15,15 @@ public class CoinPool : MonoBehaviour
 	// VARIABLE Y AWAKE AÑADIDO Para que el enemigo pueda acceder al pool sin tener que asignárselo manualmente
 	// a cada enemigo, añadimos una referencia compartida.
 
-	public static CoinPool Instance;
+	public static CoinPool Instance { get; private set; }
 
     private void Awake()
     {
+		if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+
 		Instance = this;
     }
 	//-----------------------------------------//
-
 
     void Start()
     {
@@ -40,11 +37,6 @@ public class CoinPool : MonoBehaviour
 		}
 	}
 
-    
-    void Update()
-    {
-        
-    }
 	// este metodo lo que hace es coger la moneda del array para poder utilizarla.
 	public GameObject ObtenerMoneda(Vector3 posicion)
 	{
@@ -67,6 +59,6 @@ public class CoinPool : MonoBehaviour
 	{
 
 		moneda.SetActive(false); // setea la moneda a false para que no se pueda ver ni ahcer nada
-		monedasGuardadas.Add(moneda); // alñade a la moneda a la array.
+		monedasGuardadas.Add(moneda); // añade a la moneda a la array.
 	}
 }
