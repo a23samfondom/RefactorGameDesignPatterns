@@ -8,9 +8,12 @@ using UnityEngine;
 public class CoinPool : MonoBehaviour
 {
 	[SerializeField] private GameObject coinPrefab; // el prefab de las coins
+	[SerializeField] private CoinFactory coinFactory; // referencia del script del coin Factory
+
 	[SerializeField] private int cantidadInicial = 10; // cantidad inicial que hay de monedas, serialize para poder modificar la cantidad desde el editor directamente
 	private List<GameObject> monedasGuardadas = new List<GameObject>(); // vale esto es importante, esta es la array de las monedas que guarda el Pool, aqui estan
 																		//las monedas guardadas que se van creando.
+
 
 	
 	// VARIABLE Y AWAKE AÑADIDO Para que el enemigo pueda acceder al pool sin tener que asignárselo manualmente
@@ -45,9 +48,9 @@ public class CoinPool : MonoBehaviour
 	// este metodo lo que hace es coger la moneda del array para poder utilizarla.
 	public GameObject ObtenerMoneda(Vector3 posicion)
 	{
-		if (monedasGuardadas.Count == 0) // un if que si detecta que no hay monedas, pues simplemente devuelve null
+		if (monedasGuardadas.Count == 0)
 		{
-			return null;
+			return coinFactory.CreateCoin(posicion);
 		}
 
 		GameObject moneda = monedasGuardadas[0]; // crea la variable moneda, que es la moneda que se va a devolver, esta es la primero moneda de la array
