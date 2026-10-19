@@ -715,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718bc81dba19a764ba801e5fde53a4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemyPrefab: {fileID: 685763907661098742, guid: 06c2297dd74b3f54cbe19e164a3908d5, type: 3}
+  enemyFactoryPool: {fileID: 971219084}
   spawnPoint: {fileID: 647287176}
 --- !u!4 &647287176
 Transform:
@@ -1179,6 +1179,51 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.59645, y: -3.09839, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1025716125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1025716127}
+  - component: {fileID: 1025716126}
+  m_Layer: 0
+  m_Name: CoinFactoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1025716126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025716125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772eb357a2c5e0468e00a60788638aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinFactory
+  coinPrefab: {fileID: 892843045059019694, guid: 3cb0c7eb71f2dbd4f92b886a453e8a58, type: 3}
+--- !u!4 &1025716127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025716125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.6494, y: -3.40501, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2139,6 +2184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinPool
   coinPrefab: {fileID: 892843045059019694, guid: 3cb0c7eb71f2dbd4f92b886a453e8a58, type: 3}
+  coinFactory: {fileID: 1025716126}
   cantidadInicial: 10
 --- !u!4 &1906435700
 Transform:
@@ -2412,3 +2458,4 @@ SceneRoots:
   - {fileID: 1897447638}
   - {fileID: 1594814216}
   - {fileID: 971219085}
+  - {fileID: 1025716127}
