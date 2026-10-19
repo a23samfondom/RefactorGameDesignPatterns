@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CoinPool : MonoBehaviour
 {
@@ -31,8 +32,8 @@ public class CoinPool : MonoBehaviour
 		// el la array de monedasGuardadas.
 		for (int i = 0; i < cantidadInicial; i++)
 		{
-			GameObject moneda = Instantiate(coinPrefab); // hacemos el instantiate del prefab
-			moneda.SetActive(false); // desactivamos la moneda
+			GameObject moneda = coinFactory.CreateCoin(Vector3.zero); // hacemos el instantiate del prefab
+            moneda.SetActive(false); // desactivamos la moneda
 			monedasGuardadas.Add(moneda); // añadimos la moneda a la array
 		}
 	}

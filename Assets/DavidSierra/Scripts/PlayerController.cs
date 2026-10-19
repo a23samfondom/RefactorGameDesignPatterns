@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void Shoot() // esta bien, pero los isntancia directamente, podria utilizar un factory o algo :)
+	private void Shoot() // metodo que dirspara
 	{
 		// llamamos al metodo createProjectile que crea el proyectil del script projectileFactoryPool
 		projectileFactoryPool.CreateProjectile(transform.position + Vector3.right * lastHorizontal, new Vector2(lastHorizontal, 0)); 
