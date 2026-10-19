@@ -12,8 +12,8 @@ public class EnemySpawner : MonoBehaviour
         CrearEnemigo(); //Crea un enemigo al empezar el juego
     }
 
-    public void CrearEnemigo()
-    {
+    public void CrearEnemigo() // metodo que spawnea al enemigo, llama al metodo de enemyFactoryPool que crea un enemigo
+	{
         currentEnemy = enemyFactoryPool.CreateEnemy(spawnPoint.position, spawnPoint.rotation); // llamamos al metodo de crear un enemigo
 
 	}
