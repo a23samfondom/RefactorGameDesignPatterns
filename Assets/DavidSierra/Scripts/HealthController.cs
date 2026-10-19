@@ -7,7 +7,8 @@ public class HealthController : MonoBehaviour {
     [SerializeField] int maxLives = 3;
     [SerializeField] int lives = 3;
 
-    public static event Action EnemyDied; // Evento que avisa cuando un enemigo muere.
+	[SerializeField] private EnemyFactoryPool enemyFactoryPool; // creamos la referencia a enemyFactoryPool, que controla el metodo de creación de enemigos
+	public static event Action EnemyDied; // Evento que avisa cuando un enemigo muere.
 
     public void GetHit() {
 
@@ -25,17 +26,22 @@ public class HealthController : MonoBehaviour {
 
             FindFirstObjectByType<EnemySpawner>().CrearEnemigo(); //Avisar al spawner para que cree otro enemigo.
 
-            Destroy(gameObject); //Enemigo se destruye
-        }
+			GetComponent<EnemyPoolMember>().ReturnToPool(); // en vez de eliminar al enemigo, lo devolvemos a la pool
+		}
+
+
     }
 
+	public void ResetHealth() // este metodo reinicia la vida del enemigo
+	{
+		lives = maxLives;
+	}
 
 
 
 
-
-    //CODIGO ORIGINAL
-    /*
+	//CODIGO ORIGINAL
+	/*
     public void GetHit() {
         lives--;
         if (lives <= 0) {

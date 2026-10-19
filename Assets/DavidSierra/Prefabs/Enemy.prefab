@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3033725953889665440}
   - component: {fileID: 5926880824480554818}
   - component: {fileID: 6696264742451385458}
+  - component: {fileID: -8798119136829834487}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -171,3 +172,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLives: 3
   lives: 3
+--- !u!114 &-8798119136829834487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685763907661098742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3392aaf05b81b9e47a80745db02cd798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolMember

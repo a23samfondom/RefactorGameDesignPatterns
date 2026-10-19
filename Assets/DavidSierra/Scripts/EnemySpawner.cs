@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab; //Referencia del prefab creado del enemigo
-    [SerializeField] private Transform spawnPoint; //Referencia transform del spawn point donde aparecerá el enemigo
+	[SerializeField] private EnemyFactoryPool enemyFactoryPool; // creamos la referencia a enemyFactoryPool, que controla el metodo de creación de enemigos
+	[SerializeField] private Transform spawnPoint; //Referencia transform del spawn point donde aparecerá el enemigo
 
     private GameObject currentEnemy; //Guarda una referencia al enemigo creado
 
@@ -14,7 +14,8 @@ public class EnemySpawner : MonoBehaviour
 
     public void CrearEnemigo()
     {
-        currentEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation); //Instancia un enemigo en la posicion del spawnpoint
-    }
+        currentEnemy = enemyFactoryPool.CreateEnemy(spawnPoint.position, spawnPoint.rotation); // llamamos al metodo de crear un enemigo
+
+	}
 
 }
