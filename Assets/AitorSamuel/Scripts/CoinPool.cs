@@ -33,7 +33,7 @@ public class CoinPool : MonoBehaviour
 		for (int i = 0; i < cantidadInicial; i++)
 		{
 			GameObject moneda = coinFactory.CreateCoin(Vector3.zero); // hacemos el instantiate del prefab
-            moneda.SetActive(false); // desactivamos la moneda
+            moneda.SetActive(false); // desactivamos la monedaA
 			monedasGuardadas.Add(moneda); // añadimos la moneda a la array
 		}
 	}
