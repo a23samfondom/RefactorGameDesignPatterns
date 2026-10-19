@@ -48,7 +48,7 @@ public class CoinPool : MonoBehaviour
 	// este metodo lo que hace es coger la moneda del array para poder utilizarla.
 	public GameObject ObtenerMoneda(Vector3 posicion)
 	{
-		if (monedasGuardadas.Count == 0)
+		if (monedasGuardadas.Count == 0) // si no hay monedas, las crea utilizando el factory de las coins
 		{
 			return coinFactory.CreateCoin(posicion);
 		}
